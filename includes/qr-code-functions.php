@@ -23,7 +23,7 @@ function add_plugin_meta_links($links, $file)
 
     if ($basename == $file) {
         $row_meta = array(
-            'view_details' => '<a href="#" id="qr-code-details-link">' . __('View details') . '</a>',
+            'view_details' => '<a href="#" id="qr-code-details-link">' . 'View details' . '</a>',
         );
         return array_merge($links, $row_meta);
     }
