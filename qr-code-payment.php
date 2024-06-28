@@ -6,7 +6,7 @@
  * Author:            Linh
  */
 
-// Ensure WooCommerce is active
+
 if (!defined('ABSPATH')) {
     exit;
 }

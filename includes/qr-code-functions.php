@@ -35,8 +35,8 @@ function qr_code_enqueue_scripts()
 {
     wp_enqueue_script('jquery-ui-dialog');
     wp_enqueue_style('wp-jquery-ui-dialog');
-    wp_enqueue_script('qr-code-popup-script', plugin_dir_url( __DIR__ )  . 'assets/js/qr-code.js', array('jquery', 'jquery-ui-dialog'), null, true);
-    wp_enqueue_style('qr-code-popup-style', plugin_dir_url( __DIR__  ) . 'assets/css/qr-code-details.css');
+    wp_enqueue_script('qr-code-script', plugin_dir_url( __DIR__ )  . 'assets/js/qr-code.js', array('jquery', 'jquery-ui-dialog'), null, true);
+    wp_enqueue_style('qr-code-style', plugin_dir_url( __DIR__  ) . 'assets/css/qr-code.css');
 }
 
 function add_qr_code_details_popup()

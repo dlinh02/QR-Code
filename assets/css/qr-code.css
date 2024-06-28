@@ -1,0 +1,7 @@
+#qr-code-details-dialog {
+    display: none;
+}
+
+#woocommerce_qrcode_description{
+    width: 400px;
+}
