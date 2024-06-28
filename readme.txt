@@ -17,6 +17,7 @@
    - **Bank**: Select your bank.
    - **Account Number**: Enter your account number.
    - **Account Name**: This will be apparent after entering your correct account number.
+   - **Message**: Enter your message, this will appear in bank transfer information. Example: Payment for Order xxx (xxx is automatically generated).
 
 ## Support
 If you encounter any issues, please contact me via email: linhdieu3001@gmail.com.

@@ -14,6 +14,10 @@ class WC_Gateway_QRCode extends WC_Payment_Gateway {
         $this->method_title = 'QR Code';
         $this->method_description = 'QR Code Payment Method';
 
+        // appear in checkout
+        $this->title = $this->get_option('title');
+        $this->description = $this->get_option('description');
+
         $this->init_form_fields();
         $this->init_settings(); // selet value from data base for fields
 
@@ -93,6 +97,13 @@ class WC_Gateway_QRCode extends WC_Payment_Gateway {
                 'default' => '',
                 'required' => true,
             ),
+            'addInfo' => array(
+                'title' => 'Message',
+                'type' => 'text',
+                'description' => 'Enter your message, this will appear in bank transfer information. <br> Example: Payment for Order xxx (xxx is automatically generated)',
+                'default' => '',
+                'required' => true,
+            ),
         );
     }
 
@@ -107,7 +118,7 @@ class WC_Gateway_QRCode extends WC_Payment_Gateway {
             'accountNo' => $this->get_option('accountNo'),
             'accountName' => $this->get_option('accountName'),
             'acqId' => $this->get_option('bank'),
-            'addInfo' => "Don hang " . $order_id,
+            'addInfo' => $this->get_option('addInfo'). $order_id,
             'amount' => $order->get_total(),
             'recipient' => $this->get_option('accountName'),
             "template" => "print"
