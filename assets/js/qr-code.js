@@ -1,6 +1,6 @@
 jQuery(document).ready(function ($) {
     // get value after entering account Number
-    $('#woocommerce_qrcode_accountNo').on('input', function () {
+    $('#woocommerce_qrcode_accountNo').on('change', function () {
         var accountNo = $(this).val();
         var bank = $('#woocommerce_qrcode_bank').val();
         var client_id = $('#woocommerce_qrcode_clientID').val();
