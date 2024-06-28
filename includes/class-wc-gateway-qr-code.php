@@ -103,7 +103,6 @@ class WC_Gateway_QRCode extends WC_Payment_Gateway {
     {
         $order = wc_get_order($order_id);
 
-        // Gọi API của VietQR để tạo mã QR và lưu thông tin vào đơn hàng
         $client_id = $this->get_option('clientID');
         $api_key = $this->get_option('apiKey'); 
 
@@ -116,7 +115,8 @@ class WC_Gateway_QRCode extends WC_Payment_Gateway {
             'recipient' => $this->get_option('accountName'),
             "template" => "print"
         );
-
+        
+        //call function generate qr code
         $api = new API();
         $response = $api->get_qr_code($data, $client_id, $api_key);
 
@@ -125,14 +125,14 @@ class WC_Gateway_QRCode extends WC_Payment_Gateway {
             $response_data = json_decode($response, true);
 
             if (isset($response_data['data']['qrDataURL'])) {
-                // Lưu thông tin mã QR vào đơn hàng để hiển thị hoặc tải về sau này
+                // save into database
                 $data_order = update_post_meta($order_id, 'qr_code_url', $response_data['data']['qrDataURL']);
 
                 $order = wc_get_order($order_id);
 
                 if ($order->get_total() > 0) {
-                    // cập nhật trạng thái tạm giữ.
-                    $order->update_status(apply_filters('woocommerce_' . $this->id . '_process_payment_order_status', 'on-hold', $order), __('Awaiting BACS payment', 'woocommerce'));
+                    // update status order on-hold
+                    $order->update_status(apply_filters('woocommerce_' . $this->id . '_process_payment_order_status', 'on-hold', $order), __('Awaiting payment', 'woocommerce'));
                 } else {
                     $order->payment_complete();
                 }
@@ -147,30 +147,26 @@ class WC_Gateway_QRCode extends WC_Payment_Gateway {
                 );
 
             } else {
-                // Xử lý lỗi nếu có
-                wc_add_notice('Đã xảy ra lỗi khi tạo mã QR. Vui lòng thử lại.', 'error');
+                // error
+                wc_add_notice('There was an error while generating the QR code. Please try again.', 'error');
                 return;
             }
         } else {
-            // Xử lý lỗi nếu không nhận được phản hồi từ API
-            wc_add_notice('Không thể kết nối với VietQR API. Vui lòng thử lại sau.', 'error');
+            // Handle the error if no response is received from the API.
+            wc_add_notice('Unable to connect to the VietQR API. Please try again later.', 'error');
             return;
         }
     }
 
     public function qr_code($order_id)
     {
-        $this->payment_details($order_id);
-    }
-
-    public function payment_details($order_id)
-    {
         $order = wc_get_orders($order_id);
         $qr_code_url = get_post_meta($order_id, 'qr_code_url', true);
 
         echo '
-        <h3>Vui lòng thanh toán đơn hàng #' . $order_id . ':</h3>
+        <h3>Please proceed to payment for your order  #' . $order_id . ' here:</h3>
         <img src="' . $qr_code_url . '" alt="QR Code" width="300px">
         ';
     }
+
 }
