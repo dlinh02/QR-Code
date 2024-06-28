@@ -21,7 +21,7 @@ jQuery(document).ready(function ($) {
             },
             data: JSON.stringify(data),
             success: function (response) {
-                if (response.desc) {
+                if (response.code == "00") {
                     // update accountName
                     $('#woocommerce_qrcode_accountName').val(response.data.accountName);
                 } else {
